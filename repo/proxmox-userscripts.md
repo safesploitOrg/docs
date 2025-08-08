@@ -1,7 +1,7 @@
 ---
 title: proxmox-userscripts
 visibility: public
-owner: @safesploit
+owner: safesploit
 status: active
 links:
   repo: https://github.com/safesploitOrg/proxmox-userscripts
