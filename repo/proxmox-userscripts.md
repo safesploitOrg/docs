@@ -5,7 +5,6 @@ owner: safesploit
 status: active
 links:
   repo: https://github.com/safesploitOrg/proxmox-userscripts
-  issues: https://github.com/safesploitOrg/proxmox-userscripts/issues
 ---
 
 ## What it is
