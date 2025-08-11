@@ -1,7 +1,7 @@
 # 📚 safesploitOrg / docs
 
 A **public** documentation hub for the `safesploitOrg` ecosystem — containing design decisions, best practices, runbooks (public-safe), and cross-repo knowledge.  
-This is the **"why" and "how"** behind our projects, without exposing sensitive implementation details.
+This is the **"why" and "how"** behind projects, without exposing sensitive implementation details.
 
 ---
 
@@ -37,6 +37,4 @@ docs/
 ├── security/                  # Security baselines (no sensitive detail)
 ├── templates/                 # Re-usable doc templates
 └── README.md
-
-
 ```
