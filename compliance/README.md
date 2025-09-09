@@ -17,7 +17,7 @@ It focuses on aligning infrastructure and operations with industry standards and
   Self-assessment templates, readiness checklists, and audit preparation guides.
 
 - **[Regulatory](./regulatory/)**  
-  Sector-specific requirements such as GDPR, NHS Digital, HIPAA.
+  Sector-specific requirements such as GDPR, CE+, HIPAA.
 
 ---
 
