@@ -30,6 +30,7 @@ guides/
     └── firewalling/
         ├── pfsense-lab.md
         ├── nftables.md
+        ├── proxmox-firewall.md
         └── security-groups.md
 ```
 
