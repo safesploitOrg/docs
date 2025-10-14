@@ -190,4 +190,4 @@ While AWS doesn’t expose VLANs directly, similar isolation concepts exist:
 ---
 
 *Author: Zepher Ashe (@safesploit)*  
-*Part of safesploitOrg/docs → `/guides/networking/switching/vlan-trunking.md`*
+*Part of safesploitOrg/docs → `/guides/networking/switching/`*
