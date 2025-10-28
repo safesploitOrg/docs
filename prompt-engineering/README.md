@@ -20,10 +20,10 @@ Goals:
 
 ```ini
 prompt-engineering/
-├── README.md # This file
-├── guides/ # How-tos and design/evaluation guides
-├── templates/ # Prompt card templates and checklists
-└── examples/ # Demonstrations of prompt workflows
+├── README.md     # This file
+├── guides/       # How-tos and design/evaluation guides
+├── templates/    # Prompt card templates and checklists
+└── examples/     # Demonstrations of prompt workflows
 ```
 
 
