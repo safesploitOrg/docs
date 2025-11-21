@@ -163,7 +163,8 @@ Engineering access should not rely on the same components under failure.
 ---
 
 # 7. 🏗️ Architecture Diagram  
-### Propagation of Faulty Feature File → Global Failure (Mermaid)
+
+### Mermaid
 
 ```mermaid
 flowchart TD

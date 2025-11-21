@@ -113,16 +113,21 @@ Microsoft mitigated by:
 
 ## 🧱 Mermaid Architecture Diagram
 
+### Mermaid
+
 ```mermaid
+%% Azure Front Door Outage (29 Oct 2025) – Simplified Architecture Flow
 graph TD
-    U[Users] -->|HTTP Requests| AFD[Azure Front Door – Global Edge CDN]
-    AFD -->|Reverse Proxy + Routing| RS1[Regional Service Nodes]
-    AFD --> RS2[Regional Service Nodes (EU/APAC/US)]
-    RS1 --> APP1[App Service / Web App]
+
+    U[Users] -->|HTTP Requests| AFD[Azure Front Door - Global Edge CDN]
+    AFD -->|Reverse Proxy & Routing| RS1[Regional Service Nodes - Americas]
+    AFD --> RS2[Regional Service Nodes - Europe Asia]
+    RS1 --> APP1[App Service / Web Application]
     RS2 --> DB1[Azure SQL Database]
-    AFD -.Config Deployment.-> CFG[Configuration Service (Control Plane)]
+    AFD -. Config Deployment .-> CFG[Configuration Service - Control Plane]
     CFG -->|Invalid Change| ERR[Node Failure / Reload Error]
     ERR -->|Traffic Imbalance| AFD
+
     style AFD fill:#f66,stroke:#900,stroke-width:2px,color:#fff
 ```
 
