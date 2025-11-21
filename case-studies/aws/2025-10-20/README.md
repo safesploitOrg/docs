@@ -34,7 +34,8 @@ This document summarises:
   - [Impact](#-impact)
   - [Contributing Factors](#-contributing-factors)
   - [Lessons Learned](#-lessons-learned-devops--devsecops--sre)
-  - [Architecture Diagram)](#-architecture-simplified-impact-flow)
+  - [Architecture Diagram](#-architecture-simplified-impact-flow)
+  - [Architecture (Full Impact)](#-architecture-full-impact--fault-isolation-view)
 
 ---
 
@@ -103,7 +104,8 @@ This document summarises:
 
 ## 🧭 Architecture (Simplified Impact Flow)
 
-### Mermaid
+
+---
 
 
 ```mermaid
@@ -134,6 +136,8 @@ flowchart TD
     class A7 global;
 ```
 
+---
+
 ### Diagram Notes
 
 | Colour | Meaning |
@@ -141,6 +145,82 @@ flowchart TD
 | 🔴 Red / Pink | Root cause (DNS failure) |
 | 🟡 Yellow | Regional impact (service degradation) |
 | 🟢 Green | Global ripple effects (IAM, STS, S3 control plane) |
+
+
+---
+
+## 🧭 Architecture (Full Impact – Fault Isolation View)
+
+```mermaid
+%% -----------------------------------------------------------
+%% AWS US-EAST-1 Outage (19–20 Oct 2025)
+%% Full Impact Diagram: DNS → Control Plane → Regional Services → Global Services
+%% Top-to-Bottom layout (for GitHub display)
+%% -----------------------------------------------------------
+
+flowchart TD
+    %% ===== DNS Layer =====
+    subgraph L1["DNS / Internal Resolver Layer"]
+        D1["Internal DNS Resolution Failure\n(us-east-1)"]
+    end
+
+    %% ===== Regional Control Plane =====
+    subgraph L2["Regional Control Plane"]
+        C1["DynamoDB Endpoint Unreachable"]
+        C2["EC2 Launch / Metadata Subsystem Impacted"]
+        C3["IAM / STS Token Propagation Delays"]
+    end
+
+    %% ===== Regional Data Plane =====
+    subgraph L3["Regional Data Plane Services"]
+        R1["Network Load Balancer Health Checks Fail"]
+        R2["Lambda Invocation Errors\nand SQS Polling Delays"]
+        R3["CloudWatch / EventBridge Metrics Lag"]
+        R4["ECS / EKS Task Failures"]
+        R5["RDS / Aurora Launch Throttling"]
+    end
+
+    %% ===== Global Services =====
+    subgraph L4["Global Services / Cross-Region Dependencies"]
+        G1["IAM Global Control Plane Degraded"]
+        G2["S3 Control Plane API Latency"]
+        G3["STS & Organizations Policy Sync Delay"]
+        G4["DynamoDB Global Tables Latency (Multi-Region)"]
+    end
+
+    %% ===== Edges =====
+    D1 --> C1
+    C1 --> C2
+    C1 --> C3
+    R1 --> R2
+    R2 --> R3
+    R3 --> R4
+    R4 --> R5
+    R3 --> G1
+    C3 --> G3
+    G1 --> G2
+    G2 --> G4
+
+    %% ===== Styling =====
+    classDef dns fill:#f8d7da,stroke:#f5c2c7,stroke-width:2px,color:#000;
+    classDef control fill:#ffe8a1,stroke:#ffdf7e,stroke-width:1px,color:#000;
+    classDef regional fill:#fff3cd,stroke:#ffeeba,stroke-width:1px,color:#000;
+    classDef global fill:#d4edda,stroke:#c3e6cb,stroke-width:1px,color:#000;
+
+    class D1 dns;
+    class C1,C2,C3 control;
+    class R1,R2,R3,R4,R5 regional;
+    class G1,G2,G3,G4 global;
+```
+
+### Interpretation (Layered Impact Flow)
+
+| Layer | Summary | Key Insight |
+| :-- | :-- | :-- |
+| **DNS / Resolver Layer** | Root cause – internal DNS failure in `us-east-1`. | Even internal AWS DNS failures can cripple region-wide operations. |
+| **Regional Control Plane** | DynamoDB, EC2 launch systems, and IAM token propagation impacted. | Shows inter-service dependency on DynamoDB for control metadata. |
+| **Regional Data Plane** | NLB, Lambda, CloudWatch, ECS/EKS, RDS experienced throttling or lag. | Once the control plane degraded, autoscaling and observability systems faltered. |
+| **Global Services** | IAM, STS, S3, and DynamoDB Global Tables affected globally. | “Global” services still rely on US-EAST-1 control APIs — a single point of dependency. |
 
 
 
