@@ -103,14 +103,47 @@ This document summarises:
 
 ## 🧭 Architecture (Simplified Impact Flow)
 
+### Mermaid
+
+
 ```mermaid
+%% -----------------------------------------------------------
+%% AWS US-EAST-1 Outage (19–20 Oct 2025)
+%% Control-plane DNS failure → DynamoDB → EC2/NLB cascade
+%% -----------------------------------------------------------
+
 flowchart TD
-    A[Internal DNS Failure<br>us-east-1] --> B[DynamoDB Endpoint Unreachable]
-    B --> C[EC2 Control Plane Fails to Launch Instances]
-    C --> D[NLB Health Checks Fail]
-    D --> E[Lambda, CloudWatch, SQS Connectivity Loss]
-    E --> F[Global Services Impacted<br>(IAM, STS, S3 Control Plane)]
+    A1[fa:fa-server **Internal DNS Failure**<br>Region: US-EAST-1] --> A2[fa:fa-database **DynamoDB Endpoint Unreachable**]
+    A2 --> A3[fa:fa-cogs **EC2 Control Plane Impacted**<br>Instance Launch Failures]
+    A3 --> A4[fa:fa-network-wired **Network Load Balancer Health Checks Fail**]
+    A4 --> A5[fa:fa-lambda **Lambda Invocation Errors**<br>SQS/Lambda Event Delay]
+    A5 --> A6[fa:fa-eye **CloudWatch Metrics / EventBridge Lag**]
+    A6 --> A7[fa:fa-globe **Global Services Impacted**<br>(IAM, STS, S3 Control Plane)]
+
+    %% Styling
+    classDef cause fill:#fdd,stroke:#f00,stroke-width:2px,color:#000;
+    classDef impact fill:#ffeeba,stroke:#d39e00,stroke-width:1px,color:#000;
+    classDef global fill:#d4edda,stroke:#28a745,stroke-width:1px,color:#000;
+
+    class A1,A2 cause;
+    class A3,A4,A5,A6 impact;
+    class A7 global;
+
+    %% Notes
+    %% A1–A2: Root cause – DNS resolution failure.
+    %% A3–A6: Cascading regional impact.
+    %% A7: Global service degradation (IAM, STS, S3 control-plane).
 ```
+
+### Diagram Notes
+
+- **Top-down sequence:** Shows causal chain → not chronological steps.  
+- **Icons:** `fa:` prefixes use GitHub’s built-in [Mermaid + FontAwesome integration](https://github.blog/news-insights/product-news/mermaid-diagrams-now-support-font-awesome-icons/).  
+- **Colours:**  
+  - 🔴 *Red (cause)* → origin of failure  
+  - 🟡 *Amber (impact)* → regional service degradation  
+  - 🟢 *Green (global)* → global service effect  
+
 
 ---
 
