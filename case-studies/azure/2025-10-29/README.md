@@ -102,6 +102,7 @@ Microsoft mitigated by:
 
   | Theme | Recommendation |
   |:------|:----------------|
+  | **CI/CD Guardrails** | Strengthen validation and promotion pipelines. Enforce automated schema validation, canary releases, rollback logic, and signed deployments for all configuration changes. |
   | **Change Control** | Enforce multi-stage validation and canary deployments for global configs. |
   | **Rollback Mechanisms** | Automate rollback on anomaly detection and failed config loads. |
   | **Blast Radius Reduction** | Segment edge fleets (logical tenancy) to contain faulty rollouts. |
