@@ -113,36 +113,35 @@ This document summarises:
 %% -----------------------------------------------------------
 
 flowchart TD
-    A1[fa:fa-server **Internal DNS Failure**<br>Region: US-EAST-1] --> A2[fa:fa-database **DynamoDB Endpoint Unreachable**]
-    A2 --> A3[fa:fa-cogs **EC2 Control Plane Impacted**<br>Instance Launch Failures]
-    A3 --> A4[fa:fa-network-wired **Network Load Balancer Health Checks Fail**]
-    A4 --> A5[fa:fa-lambda **Lambda Invocation Errors**<br>SQS/Lambda Event Delay]
-    A5 --> A6[fa:fa-eye **CloudWatch Metrics / EventBridge Lag**]
-    A6 --> A7[fa:fa-globe **Global Services Impacted**<br>(IAM, STS, S3 Control Plane)]
+    A1["Internal DNS Failure\nRegion: US-EAST-1"]
+    A2["DynamoDB Endpoint Unreachable"]
+    A3["EC2 Control Plane Impacted\nInstance Launch Failures"]
+    A4["Network Load Balancer Health Checks Fail"]
+    A5["Lambda Invocation Errors\nSQS/Lambda Event Delay"]
+    A6["CloudWatch Metrics / EventBridge Lag"]
+    A7["Global Services Impacted\nIAM, STS, S3 Control Plane"]
+
+    %% Flow
+    A1 --> A2 --> A3 --> A4 --> A5 --> A6 --> A7
 
     %% Styling
-    classDef cause fill:#fdd,stroke:#f00,stroke-width:2px,color:#000;
-    classDef impact fill:#ffeeba,stroke:#d39e00,stroke-width:1px,color:#000;
-    classDef global fill:#d4edda,stroke:#28a745,stroke-width:1px,color:#000;
+    classDef cause fill:#f8d7da,stroke:#f5c2c7,stroke-width:2px,color:#000;
+    classDef impact fill:#fff3cd,stroke:#ffeeba,stroke-width:1px,color:#000;
+    classDef global fill:#d4edda,stroke:#c3e6cb,stroke-width:1px,color:#000;
 
     class A1,A2 cause;
     class A3,A4,A5,A6 impact;
     class A7 global;
-
-    %% Notes
-    %% A1–A2: Root cause – DNS resolution failure.
-    %% A3–A6: Cascading regional impact.
-    %% A7: Global service degradation (IAM, STS, S3 control-plane).
 ```
 
 ### Diagram Notes
 
-- **Top-down sequence:** Shows causal chain → not chronological steps.  
-- **Icons:** `fa:` prefixes use GitHub’s built-in [Mermaid + FontAwesome integration](https://github.blog/news-insights/product-news/mermaid-diagrams-now-support-font-awesome-icons/).  
-- **Colours:**  
-  - 🔴 *Red (cause)* → origin of failure  
-  - 🟡 *Amber (impact)* → regional service degradation  
-  - 🟢 *Green (global)* → global service effect  
+| Colour | Meaning |
+|:--|:--|
+| 🔴 Red / Pink | Root cause (DNS failure) |
+| 🟡 Yellow | Regional impact (service degradation) |
+| 🟢 Green | Global ripple effects (IAM, STS, S3 control plane) |
+
 
 
 ---
