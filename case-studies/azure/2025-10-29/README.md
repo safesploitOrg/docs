@@ -52,19 +52,20 @@ Microsoft mitigated by:
 
 ## 🕒 Timeline
 
-    | Time (UTC) | Event |
-    |:-----------|:------|
-    | **15:45** | Customer impact begins (latency / timeouts / errors). |
-    | **16:04** | Monitoring alerts trigger incident investigation. |
-    | **16:18** | Public update posted to Azure Status page. |
-    | **16:20** | Targeted Service Health notifications sent to customers. |
-    | **17:26** | Azure Portal failed away from AFD to alternate endpoints. |
-    | **17:30** | Blocked all new AFD configuration changes. |
-    | **17:40** | Initiated deployment of “last known good” configuration. |
-    | **18:30** | Fixed configuration pushed globally. |
-    | **18:45** | Node recovery and gradual routing to healthy nodes begin. |
-    | **23:15** | PowerApps dependency mitigated; customers confirm recovery. |
-    | **00:05 (30 Oct)** | Full mitigation confirmed; AFD impact resolved. |
+  | Time (UTC) | Event |
+  |:-----------|:------|
+  | **15:45** | Customer impact begins (latency / timeouts / errors). |
+  | **16:04** | Monitoring alerts trigger incident investigation. |
+  | **16:18** | Public update posted to Azure Status page. |
+  | **16:20** | Targeted Service Health notifications sent to customers. |
+  | **17:26** | Azure Portal failed away from AFD to alternate endpoints. |
+  | **17:30** | Blocked all new AFD configuration changes. |
+  | **17:40** | Initiated deployment of “last known good” configuration. |
+  | **18:30** | Fixed configuration pushed globally. |
+  | **18:45** | Node recovery and gradual routing to healthy nodes begin. |
+  | **23:15** | PowerApps dependency mitigated; customers confirm recovery. |
+  | **00:05 (30 Oct)** | Full mitigation confirmed; AFD impact resolved. |
+
 
 ---
 
@@ -119,12 +120,12 @@ Microsoft mitigated by:
 %% Azure Front Door Outage (29 Oct 2025) – Simplified Architecture Flow
 graph TD
 
-    U[Users] -->|HTTP Requests| AFD[Azure Front Door - Global Edge CDN]
+    U[Users] -->|HTTP Requests| AFD[AFD - Global Edge CDN]
     AFD -->|Reverse Proxy & Routing| RS1[Regional Service Nodes - Americas]
     AFD --> RS2[Regional Service Nodes - Europe Asia]
     RS1 --> APP1[App Service / Web Application]
     RS2 --> DB1[Azure SQL Database]
-    AFD -. Config Deployment .-> CFG[Configuration Service - Control Plane]
+    AFD -. Config Deployment .-> CFG[Config Service - Control Plane]
     CFG -->|Invalid Change| ERR[Node Failure / Reload Error]
     ERR -->|Traffic Imbalance| AFD
 
