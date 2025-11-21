@@ -100,21 +100,19 @@ Microsoft mitigated by:
 
 ## 💡 Lessons Learned (DevOps / DevSecOps / SRE)
 
-    | Theme | Recommendation |
-    |:------|:----------------|
-    | **Change Control** | Enforce multi-stage validation and canary deployments for global configs. |
-    | **Rollback Mechanisms** | Automate rollback on anomaly detection and failed config loads. |
-    | **Blast Radius Reduction** | Segment edge fleets (logical tenancy) to contain faulty rollouts. |
-    | **Observability** | Deploy real-time health probes and synthetic monitors on config state load. |
-    | **Incident Readiness** | Maintain origin failover paths (e.g., Traffic Manager redirects). |
-    | **Security Awareness** | Educate users about phishing risks following major outages. |
-    | **Governance** | Periodically review change-management guardrails for critical edge services. |
+  | Theme | Recommendation |
+  |:------|:----------------|
+  | **Change Control** | Enforce multi-stage validation and canary deployments for global configs. |
+  | **Rollback Mechanisms** | Automate rollback on anomaly detection and failed config loads. |
+  | **Blast Radius Reduction** | Segment edge fleets (logical tenancy) to contain faulty rollouts. |
+  | **Observability** | Deploy real-time health probes and synthetic monitors on config state load. |
+  | **Incident Readiness** | Maintain origin failover paths (e.g., Traffic Manager redirects). |
+  | **Security Awareness** | Educate users about phishing risks following major outages. |
+  | **Governance** | Periodically review change-management guardrails for critical edge services. |
 
 ---
 
 ## 🧱 Mermaid Architecture Diagram
-
-### Mermaid
 
 ```mermaid
 %% Azure Front Door Outage (29 Oct 2025) – Simplified Architecture Flow
