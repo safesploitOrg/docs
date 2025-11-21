@@ -167,17 +167,18 @@ Engineering access should not rely on the same components under failure.
 
 ```mermaid
 flowchart TD
-    A[ClickHouse Permissions Change] --> B[Duplicate Rows in Query Output]
-    B --> C[Bot Management Feature File Generated (Too Large)]
-    C --> D[FL2 Proxy Loads File]
-    D --> E{Size check exceeded?}
-    E -->|Yes| F[FL2 Proxy Panic -> Restart Loop]
-    F --> G[Global 5xx Errors]
-    C --> H[Propagation Every 5 Minutes]
+    A[ClickHouse permissions change] --> B[Duplicate rows in query output]
+    B --> C[Bot management feature file grows excessively]
+    C --> D[FL2 proxy loads feature file]
+    D --> E{Size check exceeded}
+    E -->|Yes| F[FL2 proxy panic and restart loop]
+    F --> G[Global 5xx errors]
+    C --> H[Propagation every 5 minutes]
     H --> D
-    G --> I[Workers KV Breaks]
-    G --> J[Turnstile/Login Breaks]
-    G --> K[Cloudflare Dashboard Unreachable]
+    G --> I[Workers KV degradation]
+    G --> J[Turnstile login failure]
+    G --> K[Cloudflare dashboard unreachable]
+
 ```
 
 ---
