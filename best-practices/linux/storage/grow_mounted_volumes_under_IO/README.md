@@ -138,6 +138,20 @@ XFS is one of the safest and most robust filesystems for **online, mounted, high
 
 ---
 
+## 4. Network Share Clients Automatically See Grown Filesystems
+
+When an XFS or ext4 filesystem exported over NFSv4 is grown on the server, clients will automatically reflect the new size without requiring remounts.
+
+NFSv4 is stateful and revalidates filesystem attributes, so the updated capacity becomes visible to clients transparently.
+
+Example on the client:
+```bash
+df -h /mnt/nfs_share
+```
+
+---
+
+
 ## 🔴 Older Requirements (Why Some Admins Avoid Online Resize)
 
 Before kernel **2.6.31** and early LVM2/LVM1:
@@ -163,18 +177,6 @@ This produced the legacy rule:
 
 The entire modern stack is designed for online operation.
 
----
-
-## 4. Network Share Clients Automatically See Grown Filesystems
-
-When an XFS or ext4 filesystem exported over NFSv4 is grown on the server, clients will automatically reflect the new size without requiring remounts.
-
-NFSv4 is stateful and revalidates filesystem attributes, so the updated capacity becomes visible to clients transparently.
-
-Example on the client:
-```bash
-df -h /mnt/nfs_share
-```
 
 ---
 
