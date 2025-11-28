@@ -1,7 +1,9 @@
-# Why Online Growth Is Safe for SAN (Fibre Channel), LVM2, and XFS
+# Why Online Growth Is Safe for SAN (Fibre Channel), LVM2, and File System (XFS)
 
 Modern enterprise Linux storage stacks are designed for **non-disruptive, online capacity expansion**, even while filesystems are mounted and under active I/O.  
 This document explains why each layer—**SAN/FC, LVM2, and XFS**—fully supports this behaviour.
+
+> ME4 LUN → dm-multipath → LVM2 (PV/VG/LV) → XFS/ext4
 
 ---
 
@@ -9,7 +11,7 @@ This document explains why each layer—**SAN/FC, LVM2, and XFS**—fully suppor
 
 Modern enterprise SAN systems (such as **Dell EMC ME4**) support **live, nondisruptive LUN expansion**:
 
-- Fully nondisruptive  
+- Designed for **nondisruptive expansion**; brief I/O stalls may occur.
 - No unmount or downtime  
 - Host simply rescans the SCSI bus  
 - Multipath handles updated path geometry automatically  
@@ -22,8 +24,9 @@ https://dl.dell.com/manuals/common/powervault-me4-and-linux-best-practices_en-us
 
 After expanding the LUN, the host only needs a rescan:
 
-```
-rescan-scsi-bus.sh -m -s
+```bash
+rescan-scsi-bus.sh --resize
+multipathd -k"resize map mpathX"
 ```
 
 **Conclusion:**  
@@ -32,6 +35,16 @@ rescan-scsi-bus.sh -m -s
 ---
 
 ## 2. LVM2 – Online PV and LV Expansion (Safe While Mounted & Under I/O)
+
+> ⚠️ Do not proceed unless all paths and the multipath device report the new size.
+
+> Ensure the following report ALL paths are resized:
+> ```bash
+> multipath -ll mpathX
+> blockdev --getsize64 /dev/sdX
+> blockdev --getsize64 /dev/mapper/mpathX
+> ```
+
 
 ### 2.1 PV Resize (`pvresize`) – Safe While Mounted
 
@@ -47,8 +60,8 @@ Because it modifies **only metadata**, `pvresize`:
 
 - Does not touch data blocks  
 - Does not affect the filesystem  
-- Does not introduce corruption risk  
-- Is safe under ongoing I/O  
+- Is safe under ongoing I/O
+  - Provided the block device has been correctly resized on ALL paths 
 - Is routinely run on **root filesystems**, which cannot be unmounted  
 
 ### Cloud vendor documentation confirming online PV resizing
@@ -79,7 +92,7 @@ These platforms are extremely conservative; documenting `pvresize` online means 
 These operations are:
 
 - Atomic  
-- Journaled  
+- Metadata is committed atomically via device-mapper table swap  
 - Safe during active I/O  
 - Non-disruptive to mounted filesystems  
 
@@ -99,8 +112,6 @@ Modern Linux filesystems support **online, mounted filesystem expansion**.
 |-----------|--------------|-------|
 | **XFS v4+** | ✔ | Designed for online growth; cannot shrink |
 | **ext4** | ✔ | `resize2fs` supports online grow |
-| **Btrfs** | ✔ | Fully online; native multi-device support |
-| **ZFS** | ✔ | Auto-expands when vdev grows |
 
 ---
 
@@ -161,4 +172,4 @@ The entire modern stack is designed for online operation.
 | **SAN / FC** | Expand LUN | ✔ Yes | Engineered for nondisruptive growth |
 | **LVM2 PV** | `pvresize` | ✔ Yes | Only metadata updated; no data block changes |
 | **LVM2 LV** | `lvextend` | ✔ Yes | Atomic metadata update; safe under I/O |
-| **Filesystems** | Online growth | ✔ Yes | XFS/ext4/Btrfs support mounted expansion |
+| **Filesystems** | Online growth | ✔ Yes | XFS/ext4 support mounted expansion |
