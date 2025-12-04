@@ -146,18 +146,35 @@ These tools examine network interfaces, Ethernet drivers, ports, and NIC statist
 
 # 🖥️ 7. Hardware Observability (CPU, RAM, Buses)
 
-Tools focusing on instruction-level performance and hardware counters.
+These tools provide insights into how the **hardware itself** behaves — including CPU frequency, power states, performance counters, NUMA locality, memory pressure, cache behaviour, and bus throughput.
 
-### 🔧 CPU
-- **mpstat**, **top**, **ps**, **pidstat**, **perf**, **turbostat**, **rdmsr**
+## 🔧 CPU Tools
 
-### 🔧 Memory
-- **vmstat**, **free**, **slabtop**, **numastat**, **perf**
+- **mpstat** – Reports CPU usage per core, showing utilisation, steal time, IRQ time, and more.
+- **top** – Real-time process monitoring with CPU, load average, and per-thread breakdowns.
+- **ps** – Snapshot of process states, CPU usage, memory usage, and scheduling information.
+- **pidstat** – Per-thread and per-process CPU utilisation, context switching, and scheduling metrics.
+- **perf** – Hardware performance counter profiler (cycles, cache misses, branch mispredictions).
+- **turbostat** – Intel-specific tool showing CPU frequencies, C-states, P-states, and turbo boost behaviour.
+- **rdmsr** – Reads CPU model-specific registers (MSRs) for extremely low-level introspection.
 
-### 🧠 When to use
-- NUMA performance tuning.  
-- CPU power-state or frequency scaling issues.  
-- Memory bus contention and cache effects.
+---
+
+## 🔧 Memory Tools
+
+- **vmstat** – Shows paging, swapping, memory pressure, interrupts, and system-wide throughput.
+- **free** – Reports total, used, cached, and available system memory.
+- **slabtop** – Displays kernel slab allocator statistics (caches, objects, memory used).
+- **numastat** – NUMA locality, node memory distribution, and remote memory access counts.
+- **perf (memory events)** – Analyses hardware counters related to RAM, cache, and memory bus traffic.
+
+---
+
+## 🧠 When to use
+- NUMA locality and cross-node memory access debugging.  
+- CPU throttling, frequency scaling, or thermal throttling investigations.  
+- Memory pressure analysis, leaking workloads, or kernel slab issues.  
+- High-performance tuning for compute-heavy or latency-sensitive workloads.
 
 ---
 
