@@ -227,19 +227,6 @@ Observability is not just operational — it is *security-critical*:
 
 ---
 
-# 🧭 Future Enhancements
-
-Potential expansions to this guide:
-
-- eBPF cookbook examples (uprobe, kprobe, tracepoint).  
-- Container observability tools (cAdvisor, bcc tools).  
-- Systemd journal analysis patterns.  
-- Kernel flamegraphs and performance visualisation.
-
-PRs and contributions are welcome.
-
----
-
 # 📚 References
 
 - Brendan Gregg — *Linux Performance Tools*  
