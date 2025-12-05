@@ -176,11 +176,3 @@ awk '/Failed password/ { print $(NF-3) }' /var/log/auth.log
 
 ---
 
-If you'd like, I can add:
-- A **SysAdmin‑focused section** (fstab, df, logs, passwd parsing)
-- A **DevOps‑style section** (K8s logs, JSON via jq+awk patterns)
-- A **security-focused cheat sheet** (SSH logs, SIEM prep)
-- Colourised output examples
-
-Just tell me what to include next.
-
