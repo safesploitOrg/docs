@@ -1,7 +1,7 @@
 # 🧠 Ceph Public Network Migration (Proxmox)
 
 **172.16.0.0/16 → 10.50.0.0/24**  
-_Minimal downtime, no data loss_
+_No service downtime, no data loss_
 
 ---
 
