@@ -3,13 +3,26 @@
 **172.16.0.0/16 → 10.50.0.0/24**  
 _No service downtime, no data loss_
 
+## 📌 Context
+
+This procedure documents a live Ceph public network migration performed on a Proxmox-backed Ceph cluster.  
+The goal was to eliminate management-network congestion while maintaining cluster availability and data integrity.
+
+---
+
+  - [🎯 Objective](#-objective)
+  - [🧱 Key Concepts (Read Once)](#-key-concepts-read-once)
+  - [🚨 Troubleshooting](#-troubleshooting-osds-not-reachable--wrong-subnet)
+  - [⚠️ Risks Considered](#-risks-considered)
+  - [✅ Final State](#-final-state)
+
 ---
 
 ## 🎯 Objective
 
 Migrate **all Ceph traffic** (MON, MGR, MDS, OSD front + back) from a congested management network to a **dedicated Ceph fabric** (e.g. 2.5 GbE switch), while keeping the cluster healthy and online.
 
----
+--- 
 
 ## 🧱 Key Concepts (Read Once)
 
@@ -284,6 +297,26 @@ ceph config set global cluster_network 10.50.0.0/24
 Restart OSDs again (one by one).
 
 ✔ This should resolve any “OSDs missing / wrong subnet” cases.
+
+--- 
+
+## ⚠️ Risks Considered
+
+### Why this change is risky
+
+Changing Ceph cluster networking affects quorum, OSD availability, replication traffic, and client IO. Incorrect sequencing can cause data unavailability or permanent loss.
+
+### Failure modes considered
+- MON quorum loss
+- OSD flapping
+- Client IO stalls
+- Backfill storms
+- Split-brain conditions
+
+### Assumptions
+- Single Ceph cluster
+- Dedicated replication network (fabric)
+- Change executed during low IO window
 
 ---
 
