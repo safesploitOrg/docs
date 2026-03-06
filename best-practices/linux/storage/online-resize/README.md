@@ -26,7 +26,11 @@ After expanding the LUN, the host only needs a rescan:
 
 ```bash
 rescan-scsi-bus.sh --resize
-multipathd -k"resize map mpathX"
+```
+
+```bash
+multipathd -k
+# > multipathd> "resize map mpathX"
 ```
 
 **Conclusion:**  
