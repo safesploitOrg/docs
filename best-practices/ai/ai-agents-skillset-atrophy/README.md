@@ -1,3 +1,4 @@
+# AI Can Write Code Faster Than I Can Understand It — Here’s My Rule for Fixing That
 
 
   - [🧠 1. The Uncomfortable Moment After a Productive AI Session](#key-1-the-uncomfortable-moment-after-a-productive-ai-session)
