@@ -1,0 +1,9 @@
+[
+  {
+    "title": "GitOps for Homelab DNS",
+    "path": "dns/gitops-dns.md",
+    "url": "https://github.com/safesploitOrg/docs",
+    "tags": ["DNS", "GitOps", "dnsmasq", "CI/CD"],
+    "content": "Version-controlled DNS configuration using GitHub, Bash automation, validation workflows and scheduled pulls for operational GitOps-style DNS management."
+  }
+]
