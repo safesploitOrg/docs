@@ -60,11 +60,22 @@ jobs:
       - name: "📋 Review pending changes"
         working-directory: ${{ env.PUBLIC_REPO_DIR }}
         run: |
-          git status --short
+            echo "Source files:"
+            find "../${SOURCE_DIR}" -maxdepth 3 -type f | sort
 
-          echo ""
-          echo "Change summary:"
-          git diff --stat
+            echo ""
+            echo "Destination files:"
+            find . -maxdepth 3 -type f \
+            ! -path "./.git/*" \
+            | sort
+
+            echo ""
+            echo "Git status:"
+            git status --short
+
+            echo ""
+            echo "Unstaged change summary:"
+            git diff --stat
 
       - name: "📝 Commit promoted content"
         id: commit
