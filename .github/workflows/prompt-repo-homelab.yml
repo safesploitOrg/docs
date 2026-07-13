@@ -1,0 +1,91 @@
+name: "🏠 Promote Homelab Repository"
+
+on:
+  workflow_dispatch:
+
+  push:
+    branches:
+      - main
+    paths:
+      - "repo/homelab/**"
+      - ".github/workflows/promote-repo-homelab.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: promote-homelab
+  cancel-in-progress: false
+
+jobs:
+  promote-homelab:
+    name: "🏠 Promote /repo/homelab → safesploitOrg/homelab"
+    runs-on: ubuntu-latest
+
+    env:
+      SOURCE_DIR: "repo/homelab"
+      PUBLIC_REPO: "safesploitOrg/homelab"
+      PUBLIC_REPO_DIR: "public-homelab"
+
+    steps:
+      - name: "📥 Checkout docs repository"
+        uses: actions/checkout@v6
+
+      - name: "🔎 Validate source directory"
+        run: |
+          if [ ! -d "${SOURCE_DIR}" ]; then
+            echo "ERROR: Source directory does not exist: ${SOURCE_DIR}"
+            exit 1
+          fi
+
+          if [ -z "$(find "${SOURCE_DIR}" -mindepth 1 -print -quit)" ]; then
+            echo "ERROR: Source directory is empty: ${SOURCE_DIR}"
+            exit 1
+          fi
+
+      - name: "📦 Checkout public homelab repository"
+        uses: actions/checkout@v6
+        with:
+          repository: ${{ env.PUBLIC_REPO }}
+          path: ${{ env.PUBLIC_REPO_DIR }}
+          ssh-key: ${{ secrets.HOMELAB_REPO_PRIVATE_KEY }}
+
+      - name: "🔄 Synchronise homelab repository"
+        run: |
+          rsync -av --delete \
+            --exclude ".git" \
+            "${SOURCE_DIR}/" \
+            "${PUBLIC_REPO_DIR}/"
+
+      - name: "📋 Review pending changes"
+        working-directory: ${{ env.PUBLIC_REPO_DIR }}
+        run: |
+          git status --short
+
+          echo ""
+          echo "Change summary:"
+          git diff --stat
+
+      - name: "📝 Commit promoted content"
+        id: commit
+        working-directory: ${{ env.PUBLIC_REPO_DIR }}
+        run: |
+          git config user.name "safesploitOrg automation"
+          git config user.email "actions@safesploit.com"
+
+          git add -A
+
+          if git diff --cached --quiet; then
+            echo "No homelab changes to promote."
+            echo "changed=false" >> "${GITHUB_OUTPUT}"
+            exit 0
+          fi
+
+          git commit -m "🏠 Promote homelab content from docs ${GITHUB_SHA}"
+          echo "changed=true" >> "${GITHUB_OUTPUT}"
+
+      - name: "🚀 Push public repository"
+        if: steps.commit.outputs.changed == 'true'
+        working-directory: ${{ env.PUBLIC_REPO_DIR }}
+        run: |
+          git push

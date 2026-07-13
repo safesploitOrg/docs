@@ -7,5 +7,5 @@ admin/
 private/
 
 # Temporary ignore
-/repo/homelab
-.github/workflows/prompt-repo-homelab.yml
+# /repo/homelab
+# .github/workflows/prompt-repo-homelab.yml
