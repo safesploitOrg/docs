@@ -6,6 +6,6 @@ __pycache__
 admin/
 private/
 
-
+# Temporary ignore
 /repo/homelab
 .github/workflows/prompt-repo-homelab.yml
