@@ -1,0 +1,11 @@
+.DS_Store
+.env
+
+__pycache__
+
+admin/
+private/
+
+
+/repo/homelab
+.github/workflows/prompt-repo-homelab.yml
