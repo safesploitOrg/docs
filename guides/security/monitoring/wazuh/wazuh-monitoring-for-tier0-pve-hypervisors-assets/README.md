@@ -194,28 +194,28 @@ That’s actual security maturity.
 
 ## ⚠️ Common mistakes to avoid
 
-❌ Monitoring *everything* → alert fatigue (signal-to-noise ratio)
-❌ Treating hypervisors like normal servers
-❌ Ignoring `/etc/pve/` (this is the crown jewel)
-❌ Not documenting “expected changes”
+- ❌ Monitoring *everything* → alert fatigue (signal-to-noise ratio)
+- ❌ Treating hypervisors like normal servers
+- ❌ Ignoring `/etc/pve/` (this is the crown jewel)
+- ❌ Not documenting “expected changes”
 
 ---
 
 ## 🧭 Implementation plan
 
-**1**
+### 1.
 
 - Enable FIM on `/etc/pve`
 - Tune SSH alerts
 - Baseline “normal” activity
 
-**2**
+### 2.
 
 - Add Proxmox API & daemon logs
 - Simulate changes
 - Write a mini runbook
 
-**3**
+### 3.
 
 - Integrate OpenVAS findings
 - Correlate:
