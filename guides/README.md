@@ -10,7 +10,7 @@ Guides are grouped by category to keep things clear and easy to navigate.
 - **[Cloud & DevOps](./cloud-devops/)** *(planned)*  
   Terraform, Ansible, Kubernetes, Docker, Jenkins, and AWS usage.
 
-- **[Identity (IAM)](./identity/)**  
+- **[IAM (Identity and Permissions)](./iam/)**  
   AD, EntraID, LDAP, Keycloak, and related topics.
 
 - **[Linux](./linux/)**  
