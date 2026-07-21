@@ -30,6 +30,7 @@ docs/
 ├── guides/                    # How-tos & walkthroughs
 ├── postmortems/               # Public-safe lessons learned
 ├── repo/                      # One page per code repo (public summary)
+│   ├── homelab/               # safesploitOrg/homelab prompt path
 │   ├── ansible-configs.md
 │   ├── terraform-configs.md
 │   └── <more>.md
