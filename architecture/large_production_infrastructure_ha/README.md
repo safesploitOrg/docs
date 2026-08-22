@@ -39,9 +39,9 @@ flowchart TB
     classDef app fill:#78909C,stroke:#37474F,stroke-width:2px,color:#FFFFFF
 
 
-    %% =========================
+    %% ============================================================
     %% CLIENT / GLOBAL LAYER
-    %% =========================
+    %% ============================================================
 
     USER["🌍 Internet Users"]
 
@@ -52,59 +52,9 @@ flowchart TB
     class ANYCAST global
 
 
-    %% =========================
-    %% LONDON REGION
-    %% =========================
-
-    subgraph LONDON["🇬🇧 London Region"]
-
-        direction TB
-
-        LON_ROUTER["🛣️ Edge Router Pair<br/>BGP + ECMP"]
-
-        subgraph LON_L4["🟠 Layer 4 Load Balancing"]
-            direction LR
-
-            LON_L4_01["⚖️ L4-LB01<br/>TCP / UDP"]
-            LON_L4_02["⚖️ L4-LB02<br/>TCP / UDP"]
-        end
-
-        subgraph LON_L7["🟢 Layer 7 Load Balancing"]
-            direction LR
-
-            LON_L7_01["🔀 L7-LB01<br/>HTTP / HTTPS"]
-            LON_L7_02["🔀 L7-LB02<br/>HTTP / HTTPS"]
-        end
-
-        subgraph LON_APP["⚫ Application / Server HA"]
-            direction LR
-
-            LON_WEB01["🖥️ Web01"]
-            LON_WEB02["🖥️ Web02"]
-            LON_WEB03["🖥️ Web03"]
-        end
-
-        LON_ROUTER -->|ECMP| LON_L4_01
-        LON_ROUTER -->|ECMP| LON_L4_02
-
-        LON_L4_01 --> LON_L7_01
-        LON_L4_01 --> LON_L7_02
-        LON_L4_02 --> LON_L7_01
-        LON_L4_02 --> LON_L7_02
-
-        LON_L7_01 --> LON_WEB01
-        LON_L7_01 --> LON_WEB02
-        LON_L7_01 --> LON_WEB03
-
-        LON_L7_02 --> LON_WEB01
-        LON_L7_02 --> LON_WEB02
-        LON_L7_02 --> LON_WEB03
-    end
-
-
-    %% =========================
+    %% ============================================================
     %% FRANKFURT REGION
-    %% =========================
+    %% ============================================================
 
     subgraph FRA["🇩🇪 Frankfurt Region"]
 
@@ -112,35 +62,54 @@ flowchart TB
 
         FRA_ROUTER["🛣️ Edge Router Pair<br/>BGP + ECMP"]
 
-        subgraph FRA_L4["🟠 Layer 4 Load Balancing"]
-            direction LR
 
-            FRA_L4_01["⚖️ L4-LB01<br/>TCP / UDP"]
-            FRA_L4_02["⚖️ L4-LB02<br/>TCP / UDP"]
-        end
+        %% -------------------------
+        %% L4 LOAD BALANCING
+        %% -------------------------
 
-        subgraph FRA_L7["🟢 Layer 7 Load Balancing"]
-            direction LR
+        FRA_L4_01["⚖️ L4-LB01<br/>TCP / UDP"]
+        FRA_L4_02["⚖️ L4-LB02<br/>TCP / UDP"]
 
-            FRA_L7_01["🔀 L7-LB01<br/>HTTP / HTTPS"]
-            FRA_L7_02["🔀 L7-LB02<br/>HTTP / HTTPS"]
-        end
 
-        subgraph FRA_APP["⚫ Application / Server HA"]
-            direction LR
+        %% -------------------------
+        %% L7 LOAD BALANCING
+        %% -------------------------
 
-            FRA_WEB01["🖥️ Web01"]
-            FRA_WEB02["🖥️ Web02"]
-            FRA_WEB03["🖥️ Web03"]
-        end
+        FRA_L7_01["🔀 L7-LB01<br/>HTTP / HTTPS"]
+        FRA_L7_02["🔀 L7-LB02<br/>HTTP / HTTPS"]
 
-        FRA_ROUTER -->|ECMP| FRA_L4_01
-        FRA_ROUTER -->|ECMP| FRA_L4_02
+
+        %% -------------------------
+        %% APPLICATION SERVERS
+        %% -------------------------
+
+        FRA_WEB01["🖥️ Web01"]
+        FRA_WEB02["🖥️ Web02"]
+        FRA_WEB03["🖥️ Web03"]
+
+
+        %% -------------------------
+        %% ROUTER -> L4
+        %% -------------------------
+
+        FRA_ROUTER -->|"ECMP"| FRA_L4_01
+        FRA_ROUTER -->|"ECMP"| FRA_L4_02
+
+
+        %% -------------------------
+        %% L4 -> L7
+        %% -------------------------
 
         FRA_L4_01 --> FRA_L7_01
         FRA_L4_01 --> FRA_L7_02
+
         FRA_L4_02 --> FRA_L7_01
         FRA_L4_02 --> FRA_L7_02
+
+
+        %% -------------------------
+        %% L7 -> APPLICATION
+        %% -------------------------
 
         FRA_L7_01 --> FRA_WEB01
         FRA_L7_01 --> FRA_WEB02
@@ -149,44 +118,108 @@ flowchart TB
         FRA_L7_02 --> FRA_WEB01
         FRA_L7_02 --> FRA_WEB02
         FRA_L7_02 --> FRA_WEB03
+
     end
 
 
-    %% =========================
+    %% ============================================================
+    %% LONDON REGION
+    %% ============================================================
+
+    subgraph LONDON["🇬🇧 London Region"]
+
+        direction TB
+
+        LON_ROUTER["🛣️ Edge Router Pair<br/>BGP + ECMP"]
+
+
+        %% -------------------------
+        %% L4 LOAD BALANCING
+        %% -------------------------
+
+        LON_L4_01["⚖️ L4-LB01<br/>TCP / UDP"]
+        LON_L4_02["⚖️ L4-LB02<br/>TCP / UDP"]
+
+
+        %% -------------------------
+        %% L7 LOAD BALANCING
+        %% -------------------------
+
+        LON_L7_01["🔀 L7-LB01<br/>HTTP / HTTPS"]
+        LON_L7_02["🔀 L7-LB02<br/>HTTP / HTTPS"]
+
+
+        %% -------------------------
+        %% APPLICATION SERVERS
+        %% -------------------------
+
+        LON_WEB01["🖥️ Web01"]
+        LON_WEB02["🖥️ Web02"]
+        LON_WEB03["🖥️ Web03"]
+
+
+        %% -------------------------
+        %% ROUTER -> L4
+        %% -------------------------
+
+        LON_ROUTER -->|"ECMP"| LON_L4_01
+        LON_ROUTER -->|"ECMP"| LON_L4_02
+
+
+        %% -------------------------
+        %% L4 -> L7
+        %% -------------------------
+
+        LON_L4_01 --> LON_L7_01
+        LON_L4_01 --> LON_L7_02
+
+        LON_L4_02 --> LON_L7_01
+        LON_L4_02 --> LON_L7_02
+
+
+        %% -------------------------
+        %% L7 -> APPLICATION
+        %% -------------------------
+
+        LON_L7_01 --> LON_WEB01
+        LON_L7_01 --> LON_WEB02
+        LON_L7_01 --> LON_WEB03
+
+        LON_L7_02 --> LON_WEB01
+        LON_L7_02 --> LON_WEB02
+        LON_L7_02 --> LON_WEB03
+
+    end
+
+
+    %% ============================================================
     %% GLOBAL ANYCAST ROUTING
-    %% =========================
+    %% ============================================================
+
+    ANYCAST -->|"BGP selects region"| FRA_ROUTER
 
     ANYCAST -->|"BGP selects region"| LON_ROUTER
-    ANYCAST -->|"BGP selects region"| FRA_ROUTER
 
 
     %% ============================================================
     %% APPLY NODE COLOURS
     %% ============================================================
 
-    class LON_ROUTER,FRA_ROUTER router
+    class FRA_ROUTER,LON_ROUTER router
 
-    class LON_L4_01,LON_L4_02,FRA_L4_01,FRA_L4_02 l4
+    class FRA_L4_01,FRA_L4_02,LON_L4_01,LON_L4_02 l4
 
-    class LON_L7_01,LON_L7_02,FRA_L7_01,FRA_L7_02 l7
+    class FRA_L7_01,FRA_L7_02,LON_L7_01,LON_L7_02 l7
 
-    class LON_WEB01,LON_WEB02,LON_WEB03,FRA_WEB01,FRA_WEB02,FRA_WEB03 app
+    class FRA_WEB01,FRA_WEB02,FRA_WEB03,LON_WEB01,LON_WEB02,LON_WEB03 app
 
 
     %% ============================================================
-    %% SUBGRAPH / REGION STYLING
+    %% REGION STYLING
     %% ============================================================
 
-    style LONDON fill:#EAF3FB,stroke:#1565C0,stroke-width:3px
     style FRA fill:#FFF7E6,stroke:#F57C00,stroke-width:3px
 
-    style LON_L4 fill:#FFF3E0,stroke:#EF6C00,stroke-width:2px
-    style FRA_L4 fill:#FFF3E0,stroke:#EF6C00,stroke-width:2px
-
-    style LON_L7 fill:#E8F5E9,stroke:#2E7D32,stroke-width:2px
-    style FRA_L7 fill:#E8F5E9,stroke:#2E7D32,stroke-width:2px
-
-    style LON_APP fill:#ECEFF1,stroke:#455A64,stroke-width:2px
-    style FRA_APP fill:#ECEFF1,stroke:#455A64,stroke-width:2px
-
+    style LONDON fill:#EAF3FB,stroke:#1565C0,stroke-width:3px
+    
 ```
