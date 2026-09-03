@@ -41,29 +41,6 @@ flowchart LR
     WAN ---|"LAN0 / WAN<br/>eth0"| R
 ```
 
-## Practical Example
-
-A deployment using both LAN interfaces as switch uplinks may therefore look like:
-
-```text
-Managed Switch 1
-    │
-    │ VLAN trunk
-    │
-    └── GL-AXT1800 LAN2
-            └── eth1
-                └── OpenWrt Port 3
-
-
-Managed Switch 2
-    │
-    │ VLAN trunk
-    │
-    └── GL-AXT1800 LAN1
-            └── eth2
-                └── OpenWrt Port 4
-```
-
 When writing OpenWrt configuration or troubleshooting VLAN connectivity, use the **Linux/OpenWrt interface mapping** rather than relying solely on the physical labels printed on the router.
 
 ## Reference
