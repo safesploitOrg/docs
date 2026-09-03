@@ -30,15 +30,28 @@ The following example shows the two LAN ports being used as VLAN trunks to separ
 
 ```mermaid
 flowchart LR
+    WAN["🌐 WAN / Upstream"]
     R["GL-AXT1800<br/>OpenWrt Router"]
-
     SW1["Managed Switch 1<br/>Trunk Port"]
     SW2["Managed Switch 2<br/>Trunk Port"]
-    WAN["WAN / Upstream"]
 
-    R ---|"LAN2<br/>eth1<br/>OpenWrt Port 3"| SW1
-    R ---|"LAN1<br/>eth2<br/>OpenWrt Port 4"| SW2
-    WAN ---|"LAN0 / WAN<br/>eth0"| R
+    WAN -->|"LAN0 / WAN<br/>eth0"| R
+    R -->|"LAN2<br/>eth1<br/>OpenWrt Port 3"| SW1
+    R -->|"LAN1<br/>eth2<br/>OpenWrt Port 4"| SW2
+
+    %% Node colours
+    classDef wan fill:#FFF3E0,stroke:#E65100,stroke-width:2px,color:#BF360C
+    classDef router fill:#E3F2FD,stroke:#1565C0,stroke-width:3px,color:#0D47A1
+    classDef switch fill:#E8F5E9,stroke:#2E7D32,stroke-width:2px,color:#1B5E20
+
+    class WAN wan
+    class R router
+    class SW1,SW2 switch
+
+    %% Link colours
+    linkStyle 0 stroke:#E65100,stroke-width:3px
+    linkStyle 1 stroke:#2E7D32,stroke-width:3px
+    linkStyle 2 stroke:#2E7D32,stroke-width:3px
 ```
 
 When writing OpenWrt configuration or troubleshooting VLAN connectivity, use the **Linux/OpenWrt interface mapping** rather than relying solely on the physical labels printed on the router.
