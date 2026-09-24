@@ -44,6 +44,10 @@ Consider `IT-WS01`: an ordinary IT workstation with Internet access.
 
 Now assume the workstation is compromised.
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/safesploitOrg/assets/90bfb8f6c2ce17cc6d4c27b6ffb98e5331fb6909/repo/dev.to/ad-tier0-hardening/ad_tier0_hardening.png" alt="Ad Tier0 Hardening" width="800">
+</p>
+
 ``` text
               IT-WS01
         (COMPROMISED \SYSTEM)
