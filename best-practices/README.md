@@ -19,6 +19,9 @@ It is meant to provide a **“DevOps done properly”** reference, combining sec
 - **[Security](./security/)**  
   Secrets management, MFA enforcement, audit logging, 3-2-1 backups.
 
+- **[Windows](./windows/)**  
+  Active Directory, Windows Servers, Desktops, IIS, SQL, hardening, monitoring, patching.
+  
 - **[Documentation & Process](./docs-process/)**  
   Writing runbooks, DR planning, code style, repo organisation.
 
